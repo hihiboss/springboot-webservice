@@ -1,4 +1,4 @@
-package com.hihiboss.springbook.springboot.web.domain.posts;
+package com.hihiboss.springbook.springboot.domain.posts;
 
 import com.hihiboss.springbook.springboot.domain.posts.Posts;
 import com.hihiboss.springbook.springboot.domain.posts.PostsRepository;
