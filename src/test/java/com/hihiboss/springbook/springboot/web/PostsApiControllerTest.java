@@ -38,6 +38,10 @@ public class PostsApiControllerTest {
         return "http://localhost:" + port;
     }
 
+    private String apiUrl(String version) {
+        return "/api/" + version + "/posts";
+    }
+
     @After
     public void tearDown() throws Exception {
         postsRepository.deleteAll();
@@ -87,7 +91,7 @@ public class PostsApiControllerTest {
                 .content(expectedContent)
                 .build();
 
-        String url = domainUrl() + "/api/v1/posts/" + savedPostsId;
+        String url = domainUrl() + apiUrl("v1") + "/" + savedPostsId;
 
         HttpEntity<PostsUpdateRequestDto> requestEntity = new HttpEntity<>(requestDto);
 
@@ -102,5 +106,25 @@ public class PostsApiControllerTest {
         Posts updatedPost = all.get(0);
         assertThat(updatedPost.getTitle()).isEqualTo(expectedTitle);
         assertThat(updatedPost.getContent()).isEqualTo(expectedContent);
+    }
+
+    @Test
+    public void removePosts() throws Exception {
+        // given
+        Posts savedPosts = postsRepository.save(Posts.builder()
+                .title("title")
+                .content("content")
+                .author("author")
+                .build());
+        Long savedPostsId = savedPosts.getId();
+
+        String url = domainUrl() + apiUrl("v1") + "/" + savedPostsId;
+
+        // when
+        restTemplate.delete(url);
+
+        //then
+        List<Posts> all = postsRepository.findAll();
+        assertThat(all.size()).isEqualTo(0);
     }
 }
