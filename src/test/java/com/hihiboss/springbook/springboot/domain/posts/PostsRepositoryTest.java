@@ -56,19 +56,47 @@ public class PostsRepositoryTest {
         // given
         LocalDateTime now = LocalDateTime.of(2019, 12, 17, 22, 20, 00);
         postsRepository.save(Posts.builder()
-        .title("title")
-        .content("content")
-        .author("author")
-        .build());
+                .title("title")
+                .content("content")
+                .author("author")
+                .build());
 
         // when
         List<Posts> postsList = postsRepository.findAll();
         Posts posts = postsList.get(0);
 
         // then
-        System.out.println(">>>>>>>> createDate=" + posts.getCreatedDate()+", modifiedDate=" + posts.getModifiedDate());
+        System.out.println(">>>>>>>> createDate=" + posts.getCreatedDate() + ", modifiedDate=" + posts.getModifiedDate());
 
         assertThat(posts.getCreatedDate()).isAfter(now);
         assertThat(posts.getModifiedDate()).isAfter(now);
+    }
+
+    @Test
+    public void queryFindAllDesc() {
+        // given
+        String[] titleList = {"title1", "title2"};
+        String[] contentList = {"content1", "content2"};
+
+        postsRepository.save(Posts.builder()
+                .title(titleList[0])
+                .content(contentList[0])
+                .author("author")
+                .build());
+        postsRepository.save(Posts.builder()
+                .title(titleList[1])
+                .content(contentList[1])
+                .author("author")
+                .build());
+
+        // when
+        List<Posts> postsList = postsRepository.findAllDesc();
+
+        // then
+        assertThat(postsList.get(0).getTitle()).isEqualTo(titleList[1]);
+        assertThat(postsList.get(0).getContent()).isEqualTo(contentList[1]);
+
+        assertThat(postsList.get(1).getTitle()).isEqualTo(titleList[0]);
+        assertThat(postsList.get(1).getContent()).isEqualTo(contentList[0]);
     }
 }
