@@ -17,7 +17,8 @@ do
   RESPONSE=$(curl -s http://localhost:${IDLE_PORT}/profile)
   UP_COUNT=$(echo ${RESPONSE} | grep 'real' | wc -l)
 
-  if [ ${UP_COUNT} -ge 1 ]; then
+  if [ ${UP_COUNT} -ge 1 ]
+  then
     echo "> Health Check 성공"
     switchProxy
     break
@@ -26,7 +27,8 @@ do
     echo "> Health Check: ${RESPONSE}"
   fi
 
-  if [ ${RETRY_COUNT} -eq 10 ]; then
+  if [ ${RETRY_COUNT} -eq 10 ]
+  then
     echo "> Health Check 실패. "
     echo "> nginx에 연결하지 않고 배포를 종료합니다."
     exit 1

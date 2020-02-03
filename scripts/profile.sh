@@ -3,13 +3,15 @@
 function findIdleProfile() {
   RESPONSE_CODE=$(curl -s -o /dev/null -w "%{http_code}" http://localhost/profile)
 
-  if [ ${RESPONSE_CODE} -ge 400 ]; then
+  if [ ${RESPONSE_CODE} -ge 400 ]
+  then
     CURRENT_PROFILE=real2
   else
     CURRENT_PROFILE=$(curl -s http://localhost/profile)
   fi
 
-  if [ ${CURRENT_PROFILE} == real1 ]; then
+  if [ ${CURRENT_PROFILE} == real1 ]
+  then
     IDLE_PROFILE=real2
   else
     IDLE_PROFILE=real1
